@@ -62,6 +62,18 @@ app.delete('/:name', function (req, res) {
     
 });
 
+app.post('/USERS', function(req, res){
+    DButilsAzure.execQuery("SELECT * FROM users")
+      .then(function (response){
+          console.log(response);
+          res.send(response)
+      })
+  
+      .catch(function (error){
+          console.log(error.message);
+      })
+  }); 
+
 var port = 3000;
 app.listen(port, function () {
     console.log('Example app listening on port ' + port);
