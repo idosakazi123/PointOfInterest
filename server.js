@@ -6,9 +6,12 @@ var app = express();
 var cors = require('cors');
 app.use(cors());
 var DButilsAzure = require('./DButils');
+var users = require('./users');
+
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use('/users',users);
 
 
 //complete your code here
@@ -72,7 +75,16 @@ app.post('/USERS', function(req, res){
       .catch(function (error){
           console.log(error.message);
       })
-  }); 
+});
+
+app.get('/:id',function(req,res){
+    let id = req.params.id
+    console.log(id)
+    res.send("the requested resource")
+});
+
+
+
 
 var port = 3000;
 app.listen(port, function () {
