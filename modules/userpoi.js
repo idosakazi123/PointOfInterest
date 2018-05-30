@@ -6,18 +6,64 @@ var jwt = require('jsonwebtoken');
 var DButilsAzure = require('../DButils');
 var Token = require('./Token');
 
-router.get('/saveuserpoi/:username/:poid',function(req, res){
-    var poid = parseInt(req.params.poid)
-    DButilsAzure.execQuery('select * from poi where poid =\''+poid+'\'')
+
+
+router.post('/saveuserpoi',function(req, res){  
+    var token = Token.checkValidToken(req)
+    .then(function(response){
+        DButilsAzure.execQuery('insert into USERPOI (username,poid) values(\''+req.body.username+'\',\'' + req.body.poid+'\')') 
         .then(function(response){
-            res.send(response)
+                res.status(200).send("user has been save")   
         })
         .catch(function(error){
-            console.log(error);
+            console.log(error)
             res.status(500).send({ERROR: error})
         })
+    })
+    .catch(function(error){
+        console.log(error)
+        res.status(500).send("Token is invalid")
+    })    
 })
 
+router.post('/deleteuserpoi',function(req, res){  
+    var token = Token.checkValidToken(req)
+    .then(function(response){
+        DButilsAzure.execQuery('delete from USERPOI where (username = \''+req.body.username+'\'and poid = \'' + req.body.poid+'\')' ) 
+        .then(function(response){
+                res.status(200).send("poid has been deleted")   
+        })
+        .catch(function(error){
+            console.log(error)
+            res.status(500).send({ERROR: error})
+        })
+    })
+    .catch(function(error){
+        console.log(error)
+        res.status(500).send("Token is invalid")
+    })    
+})
 
+/**
+ * the get method is not work well we need to know how we get or sent the token in get method
+ */
+router.get('/',function(req, res){
+    console.log("hello")  
+    var token = Token.checkValidToken(req)
+    .then(function(response){
+        DButilsAzure.execQuery('select * from  userpoid') 
+        .then(function(response){
+                res.status(200).send(response)   
+        })
+        .catch(function(error){
+            console.log(error)
+            res.status(500).send({ERROR: error})
+        })
+    })
+    .catch(function(error){
+        console.log(error)
+        res.status(500).send("Token is invalid")
+    })    
+})
 
 module.exports = router;

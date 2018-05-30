@@ -16,9 +16,13 @@ app.use(bodyParser.json());
 // import modules
 var users = require('./modules/users');
 var poi = require('./modules/poi');
+var userpoi = require('./modules/userpoi');
+var poireview = require('./modules/poireview');
 
 app.use('/users', users);
 app.use('/poi', poi);
+app.use('/userpoi',userpoi);
+app.use('/poireview',poireview);
 
 //open connection
 const port = 3000;
