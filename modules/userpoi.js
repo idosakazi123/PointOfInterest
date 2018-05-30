@@ -44,13 +44,49 @@ router.post('/deleteuserpoi',function(req, res){
     })    
 })
 
-/**
- * the get method is not work well we need to know how we get or sent the token in get method
- */
-router.get('/',function(req, res){  
+router.get('/favorite',function(req, res){  
     var token = Token.checkValidToken(req)
     .then(function(response){
-        DButilsAzure.execQuery('select * from  userpoid') 
+        DButilsAzure.execQuery('select poi.poid,description,city,country,category,picture from userpoi inner join poi on poi.poid = userpoi.poid where (FAVORITE = 1)') 
+        .then(function(response){
+                res.status(200).send(response)   
+        })
+        .catch(function(error){
+            console.log(error)
+            res.status(500).send({ERROR: error})
+        })
+    })
+    .catch(function(error){
+        console.log(error)
+        res.status(500).send("Token is invalid")
+    })    
+})
+
+/**
+ * we return a two of favorite poi of user
+ */
+router.get('/popular',function(req, res){  
+    var token = Token.checkValidToken(req)
+    .then(function(response){
+        DButilsAzure.execQuery('select top 2 poi.poid,description,city,country,category,picture from userpoi inner join poi on poi.poid = userpoi.poid where (FAVORITE = 1) order by NEWID()') 
+        .then(function(response){
+                res.status(200).send(response)   
+        })
+        .catch(function(error){
+            console.log(error)
+            res.status(500).send({ERROR: error})
+        })
+    })
+    .catch(function(error){
+        console.log(error)
+        res.status(500).send("Token is invalid")
+    })    
+})
+
+router.get('/recent',function(req, res){  
+    var token = Token.checkValidToken(req)
+    .then(function(response){
+        DButilsAzure.execQuery('select top 2 poi.poid,description,city,country,category,picture from userpoi inner join poi on poi.poid = userpoi.poid order by timestamp DESC') 
         .then(function(response){
                 res.status(200).send(response)   
         })

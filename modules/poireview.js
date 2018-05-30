@@ -10,7 +10,7 @@ var Token = require('./Token');
 router.post('/review',function(req, res){  
     var token = Token.checkValidToken(req)
     .then(function(response){
-        DButilsAzure.execQuery('insert into POIREVIEW (poid,username,review,rate) values(\''+req.body.username+'\',\'' + req.body.poid+'\')') 
+        DButilsAzure.execQuery('insert into POIREVIEW (poid,username,review,rate) values(\''+req.body.poid+'\',\'' + req.body.username+',\'' + req.body.review+',\'' + req.body.rate+'\')') 
         .then(function(response){
                 res.status(200).send("user has been save")   
         })
@@ -24,6 +24,8 @@ router.post('/review',function(req, res){
         res.status(500).send("Token is invalid")
     })    
 })
+
+
 
 
 
