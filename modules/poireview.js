@@ -10,9 +10,9 @@ var Token = require('./Token');
 router.post('/review',function(req, res){  
     var token = Token.checkValidToken(req)
     .then(function(response){
-        DButilsAzure.execQuery('insert into POIREVIEW (poid,username,review,rate) values(\''+req.body.poid+'\',\'' + req.body.username+',\'' + req.body.review+',\'' + req.body.rate+'\')') 
+        DButilsAzure.execQuery('insert into POIREVIEW (poid,username,review) values(\''+req.body.poid+'\',\'' + req.body.username+'\',\'' + req.body.review+'\')') 
         .then(function(response){
-                res.status(200).send("user has been save")   
+                res.status(200).send("review has been saved")   
         })
         .catch(function(error){
             console.log(error)
@@ -25,8 +25,42 @@ router.post('/review',function(req, res){
     })    
 })
 
+router.post('/rate',function(req, res){  
+    var token = Token.checkValidToken(req)
+    .then(function(response){
+        DButilsAzure.execQuery('insert into POIRATE (poid,username,rate) values(\''+req.body.poid+'\',\'' + req.body.username+'\',\'' + req.body.rate+'\')') 
+        .then(function(response){
+                res.status(200).send("rate has been saved")   
+        })
+        .catch(function(error){
+            console.log(error)
+            res.status(500).send({ERROR: error})
+        })
+    })
+    .catch(function(error){
+        console.log(error)
+        res.status(500).send("Token is invalid")
+    })    
+})
 
-
-
+router.get('/rateAll',function(req, res){  
+    //var token = Token.checkValidToken(req)
+    //.then(function(response){
+        //DButilsAzure.execQuery('select poi.poid,description,city,country,category,picture from poireview inner join poi on poi.poid = poireview.poid order by timestamp DESC') 
+        //DButilsAzure.execQuery('select avg(rate) as average, poid from poirate group by poid order by average DESC')
+        DButilsAzure.execQuery('select poi.poid,tableAvg.average,description,city,country,category,picture from poi inner join(select avg(rate) as average, poirate.poid from poirate group by poirate.poid) tableAvg on poi.poid=tableAvg.poid order by average DESC' )
+        .then(function(response){
+                res.status(200).send(response)   
+        })
+        .catch(function(error){
+            console.log(error)
+            res.status(500).send({ERROR: error})
+        })
+    //})
+    /*.catch(function(error){
+        console.log(error)
+        res.status(500).send("Token is invalid")
+    })*/    
+})
 
 module.exports = router;
