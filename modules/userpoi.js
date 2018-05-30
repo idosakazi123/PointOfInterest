@@ -47,8 +47,7 @@ router.post('/deleteuserpoi',function(req, res){
 /**
  * the get method is not work well we need to know how we get or sent the token in get method
  */
-router.get('/',function(req, res){
-    console.log("hello")  
+router.get('/',function(req, res){  
     var token = Token.checkValidToken(req)
     .then(function(response){
         DButilsAzure.execQuery('select * from  userpoid') 
