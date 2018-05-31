@@ -26,7 +26,7 @@ router.post('/saveuserpoi',function(req, res){
     })    
 })
 
-router.post('/deleteuserpoi',function(req, res){  
+router.delete('/userpoi',function(req, res){  
     var token = Token.checkValidToken(req)
     .then(function(response){
         DButilsAzure.execQuery('delete from USERPOI where (username = \''+req.body.username+'\'and poid = \'' + req.body.poid+'\')' ) 
