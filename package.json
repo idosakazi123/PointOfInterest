@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/idosakazi123/PointOfInterest#readme",
   "dependencies": {
-    "package.json": "^2.0.1"
+    "fs": "0.0.1-security",
+    "package.json": "^2.0.1",
+    "xml2js": "^0.4.19"
   }
 }

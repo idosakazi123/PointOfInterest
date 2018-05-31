@@ -31,7 +31,7 @@ router.get('/description/:poid',function(req, res){
 })
 
 router.get('/category/:category',function(req, res){   
-    DButilsAzure.execQuery('select poi.poid,name,tableAvg.average,description,city,country,category,picture from poi where category=\''+req.params.category+'\' inner join(select avg(rate) as average, poirate.poid from poirate group by poirate.poid) tableAvg on poi.poid=tableAvg.poid order by average DESC')    
+    DButilsAzure.execQuery('select poi.poid,name,tableAvg.average,description,city,country,category,picture from poi inner join(select avg(rate) as average, poirate.poid from poirate group by poirate.poid) tableAvg on poi.poid=tableAvg.poid where category=\''+req.params.category+'\' order by average DESC')     
         .then(function(response){
             res.send(response)
         })
