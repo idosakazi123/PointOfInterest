@@ -6,22 +6,27 @@ var jwt = require('jsonwebtoken');
 var DButilsAzure = require('../DButils');
 var Token = require('./Token');
 
-/**
- * make user category
- * make a function that make a for on user category and insert it to usercategory table
- */
+//this is to do parser from xml to json
+var xml2js = require('xml2js');
+var parser = new xml2js.Parser();
+var fs = require('fs');
+
+
 router.post('/register', function(req,res){
     DButilsAzure.execQuery('insert into users(username,password,firstname,lastname,city,country,email,answer) values (\''+req.body.username+'\',\'' + req.body.password+'\',\''+req.body.firstname+'\',\''+req.body.lastname+'\',\''+req.body.city+'\',\''+req.body.country+'\',\''+req.body.email+'\',\''+req.body.answer+'\')')
     .then(function (response){
-        //write a function to insert list of category to userin table
-        DButilsAzure.execQuery('insert into usercategory(username,category) values (\''+req.body.username+'\',\''+req.body.category+'\')')
-        .then(function (nextResponse){
-            console.log(response);
-            res.sendStatus(200)
-        })
-        .catch(function (error){
-            console.log(error.message);
-        })         
+        var usercategories = req.body.category
+        var i
+        for(i=0; i<usercategories.length; i++){
+            DButilsAzure.execQuery('insert into usercategory(username,category) values (\''+req.body.username+'\',\''+usercategories[i]+'\')')
+            .then(function (nextResponse){
+                console.log(response);
+                res.sendStatus(200)
+            })
+            .catch(function (error){
+                console.log(error.message);
+            }) 
+        }                
     })
     .catch(function (error){
         console.log(error.message);
@@ -83,6 +88,15 @@ router.post('/details',function(req,res){
         console.log(error)
         res.status(500).send("Token is invalid")
     })    
+})
+
+router.get('/countries',function(req,res){
+    fs.readFile('countries.xml', function(error,ans) {
+        parser.parseString(ans, function (error, answer) {
+            res.send(answer);
+            console.log('countries is parse');
+        });
+    });
 })
 
 module.exports = router;

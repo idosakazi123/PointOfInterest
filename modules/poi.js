@@ -7,7 +7,6 @@ var DButilsAzure = require('../DButils');
 var token = require('./token');
 
 
-
 router.get('/random',function(req, res){
     DButilsAzure.execQuery('select top 3 * from poi order by NEWID()')
         .then(function(response){
@@ -22,13 +21,24 @@ router.get('/random',function(req, res){
 router.get('/description/:poid',function(req, res){
     var poid = parseInt(req.params.poid)
     DButilsAzure.execQuery('select description from poi where poid = \''+poid+'\'')
-        .then(function(response){
+        .then(function(response){           
             res.send(response)
         })
         .catch(function(error){
             console.log(error);
             res.status(500).send({ERROR: error})
         })
+})
+
+router.get('/category/:category',function(req, res){   
+    DButilsAzure.execQuery('select poi.poid,name,tableAvg.average,description,city,country,category,picture from poi where category=\''+req.params.category+'\' inner join(select avg(rate) as average, poirate.poid from poirate group by poirate.poid) tableAvg on poi.poid=tableAvg.poid order by average DESC')    
+        .then(function(response){
+            res.send(response)
+        })
+        .catch(function(error){
+            console.log(error);
+            res.status(500).send({ERROR: error})
+        })        
 })
 
 /**
