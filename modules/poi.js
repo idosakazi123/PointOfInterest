@@ -41,9 +41,6 @@ router.get('/category/:category',function(req, res){
         })        
 })
 
-/**
- * how to insert a photo in the azure db
- */
 router.get('/picture/:poid',function(req, res){
     var poid = parseInt(req.params.poid)
     DButilsAzure.execQuery('select picture from poi where poid = \''+poid+'\'')

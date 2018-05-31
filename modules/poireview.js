@@ -44,10 +44,6 @@ router.post('/rate',function(req, res){
 })
 
 router.get('/rateAll',function(req, res){  
-    //var token = Token.checkValidToken(req)
-    //.then(function(response){
-        //DButilsAzure.execQuery('select poi.poid,description,city,country,category,picture from poireview inner join poi on poi.poid = poireview.poid order by timestamp DESC') 
-        //DButilsAzure.execQuery('select avg(rate) as average, poid from poirate group by poid order by average DESC')
         DButilsAzure.execQuery('select poi.poid,tableAvg.average,description,city,country,category,picture from poi inner join(select avg(rate) as average, poirate.poid from poirate group by poirate.poid) tableAvg on poi.poid=tableAvg.poid order by average DESC' )
         .then(function(response){
                 res.status(200).send(response)   
@@ -55,12 +51,7 @@ router.get('/rateAll',function(req, res){
         .catch(function(error){
             console.log(error)
             res.status(500).send({ERROR: error})
-        })
-    //})
-    /*.catch(function(error){
-        console.log(error)
-        res.status(500).send("Token is invalid")
-    })*/    
+        })  
 })
 
 module.exports = router;
