@@ -1,0 +1,15 @@
+
+<head><title>Cities App</title>
+
+</head>
+    
+     
+<p ng-repeat="(id , city) in poiCtrl.cities">
+    City name:  <span ng-bind="city.name"></span> <br>
+    City state: <span ng-bind="city.state"></span>
+    <br> <img ng-style="{'height': '100px'}" ng-src="{{city.image}}">
+
+</p>
+
+       
+ 

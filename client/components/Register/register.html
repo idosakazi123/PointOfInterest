@@ -1,0 +1,47 @@
+
+<head><title>Register App</title>
+
+</head>
+    
+     
+<form ng-submit="regCtrl.submit()" name= "myForm">
+    UserName:
+    <input type="text" ng-model="regCtrl.user.username" required ng-minlength="3" ng-maxlength="8" name="userName" > 
+        <span ng-show = "myForm.userName.$error.required">
+            This is a required field
+        </span>
+        <span ng-show =  "myForm.userName.$error.minlength" >
+            Minimum length required is 3
+        </span>
+        <span ng-show = "myForm.userName.$error.maxlength" >
+           Maximum length required is 8
+        </span>
+        <span ng-show="myForm.userName.$invalid">
+            This is invalid 
+        </span>
+    </input>
+    <br>
+    <br>
+    Password:
+    <input type="text" ng-model="regCtrl.user.paswword" required ng-minlength="5" ng-maxlength="10" name="password" > 
+        <span ng-show = "myForm.password.$error.required">
+            This is a required field
+        </span>
+        <span ng-show =  "myForm.password.$error.minlength" >
+            Minimum length required is 5
+        </span>
+        <span ng-show = "myForm.password.$error.maxlength" >
+           Maximum length required is 10
+        </span>
+        <span ng-show="myForm.password.$invalid">
+            This is invalid 
+        </span>
+    </input>
+
+
+
+    
+</form> 
+
+       
+ 

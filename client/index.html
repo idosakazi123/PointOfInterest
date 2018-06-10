@@ -1,0 +1,56 @@
+<html ng-app="citiesApp">
+    <head>
+        <title>Cities App</title>
+            <style>
+                ul {
+                    list-style-type: none;
+                    margin: 0;
+                    padding: 0;
+                    overflow: hidden;
+                    background-color: #333;
+                }
+                
+                li {
+                    float: left;
+                }
+                
+                li a {
+                    display: block;
+                    color: white;
+                    text-align: center;
+                    padding: 14px 16px;
+                    text-decoration: none;
+                }
+                
+                li a:hover {
+                    background-color: #111;
+                }
+            </style>
+    </head>
+    <body ng-controller="myCtrl as ctrl">
+        <ul>
+            <li><a class="active" href="#/">Home</a></li>
+            <li><a class="active" href="#/register">Register</a></li>
+            <li><a href="#/about">About</a></li>
+            <li><a href="#/poi">POI</a></li> 
+        </ul>  
+        <br>
+        <br>
+        <div ng-view></div>
+
+        <img ng-src="http://2.bp.blogspot.com/-1D3ZYnPFJZE/VM0PgrciaJI/AAAAAAAAIl0/qYQXEOcRYr4/s1600/Free%2BAngularJS%2BEbooks.png">
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>       
+        <script src="app.js" ></script>
+        <script src="myCtrl.js" ></script>
+        <script src="components/About/aboutController.js" ></script>
+        <script src="components/POI/poiCtrl.js" ></script>
+        <script src="components/Register/registerCtrl.js" ></script>
+
+    </body>
+</html>
+    
+    
+
+    
